@@ -25,7 +25,9 @@ public class ListaDePalabras {
 
     public Palabras damePalabraAleatoria() {
         int tam = lista.values().size();
-        int nAleatorio = Math.random();
+        int nAleatorio = (int) (Math.floor(Math.random() * tam));
+
+        return lista.get(new Integer(nAleatorio));
     }
 
 }

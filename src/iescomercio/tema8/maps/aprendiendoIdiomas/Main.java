@@ -16,7 +16,7 @@ public class Main {
         Palabras p2 = new Palabras("casa", "house", "maison");
         Palabras p3 = new Palabras("jardin", "garden", "jardin");
         ListaDePalabras l = new ListaDePalabras();
-        Vista v = new Vista();
+        VistaParaProgramaEnConsola v = new VistaParaProgramaEnConsola();
 
         l.añadir(new Integer(0), p1);
         l.añadir(new Integer(1), p2);
