@@ -49,6 +49,7 @@ public class ControlDeErrores {
             resto = dividendo % divisor;
         } catch (ArithmeticException ae) {
             System.out.println("Divisor no puede ser 0");
+            return null;
         }
 
         r.setResto(resto);
