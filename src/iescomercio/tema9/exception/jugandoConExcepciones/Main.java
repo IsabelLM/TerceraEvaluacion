@@ -15,7 +15,6 @@ public class Main {
         ControlDeErrores c = new ControlDeErrores();
         ControlDeErrores c1 = new ControlDeErrores();
 
-        
         System.out.println(c.metodo2(5, 0));
         System.out.println(c1.metodo2(5, -2));
     }
