@@ -11,12 +11,18 @@ package iescomercio.tema9.exception.jugandoConExcepciones;
  */
 public class Retorno {
 
-    private int cociente, resto;
+    private int cociente;
+    private int resto;
 
     public Retorno() {
     }
 
-    public int getCociente() {
+    public Retorno(int cociente, int resto) {
+        this.cociente = cociente;
+        this.resto = resto;
+    }
+
+    public float getCociente() {
         return cociente;
     }
 
@@ -33,10 +39,34 @@ public class Retorno {
     }
 
     @Override
+    public int hashCode() {
+        int hash = 3;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Retorno other = (Retorno) obj;
+        if (Float.floatToIntBits(this.cociente) != Float.floatToIntBits(other.cociente)) {
+            return false;
+        }
+        if (this.resto != other.resto) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
     public String toString() {
         return "Cociente: " + cociente + " Resto: " + resto;
     }
     
     
-    
+
 }
