@@ -5,6 +5,9 @@
  */
 package iescomercio.tema9.exception.jugandoConExcepciones;
 
+import iescomercio.utilidades.PedirValores;
+import java.util.LinkedList;
+
 /**
  *
  * @author VESPERTINO
@@ -56,6 +59,16 @@ public class ControlDeErrores {
         r.setCociente(cociente);
 
         return r;
+    }
+
+    public Object metodo3(int indice) {
+        LinkedList lista = new LinkedList();
+        Integer aux;
+        for (int i = 0; i < 100; i++) {
+            Integer numero = PedirValores.pedirAleatorioInt(0, 100);
+            lista.add(i, numero);
+        }
+        return lista.get(indice);
     }
 
 }
