@@ -63,12 +63,19 @@ public class ControlDeErrores {
 
     public Object metodo3(int indice) {
         LinkedList lista = new LinkedList();
-        Integer aux;
+
         for (int i = 0; i < 100; i++) {
             Integer numero = PedirValores.pedirAleatorioInt(0, 100);
             lista.add(i, numero);
         }
-        return lista.get(indice);
-    }
 
+        try {
+            return lista.get(indice);
+        } catch (IndexOutOfBoundsException ie) {
+            System.out.println("Indice no puede ser negativo o mayor de 100");
+            return null;
+        }
+        
+        
+    }
 }

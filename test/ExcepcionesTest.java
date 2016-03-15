@@ -64,8 +64,5 @@ public class ExcepcionesTest {
 //
 //    }
     
-    @Test
-    public void malaFe3(){
-        
-    }
+    
 }
