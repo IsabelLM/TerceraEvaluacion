@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package iescomerico.tema9.exception.log;
+package iescomercio.tema9.exception.log;
 
 /**
  *
