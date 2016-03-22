@@ -21,5 +21,6 @@ public class GridFormulario extends JFrame {
         this.getContentPane().setLayout(new GridLayout(4, 2, 5, 5));
 
     }
+    
 //cambios
 }
