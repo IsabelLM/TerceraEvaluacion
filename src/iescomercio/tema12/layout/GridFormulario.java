@@ -8,7 +8,7 @@ package iescomercio.tema12.layout;
 import java.awt.GridLayout;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-
+//lalala
 /**
  *
  * @author VESPERTINO
@@ -16,7 +16,7 @@ import javax.swing.JLabel;
 public class GridFormulario extends JFrame {
 
     private JLabel nombre, ape, edad, tel;
-
+//lalala
     public GridFormulario() {
         this.getContentPane().setLayout(new GridLayout(4, 2, 5, 5));
 
