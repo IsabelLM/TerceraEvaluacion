@@ -10,6 +10,7 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -17,6 +18,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
 /**
@@ -26,19 +28,20 @@ import javax.swing.WindowConstants;
 public class Border extends JFrame {
     /*Implementar un programa haciendo uso de Swing 
      que muestre una ventana con un borderlayout donde en el 
-    Arriba amarillo
-    Izda: azul
-    Derecho: Verde
-    Abajo: naranja
-    posteriormente en el central mediente border layout, mostrará otra vez, que rote*/
-    //panel 1 grid 2*2 
-// 2 label y 1 jtextfield
+     Arriba amarillo
+     Izda: azul
+     Derecho: Verde
+     Abajo: naranja
+     posteriormente en el central mediente border layout, mostrará otra vez, que rote*/
 
+//panel 1 grid 2*2 
+// 2 label y 1 jtextfield
     private JPanel jpSup, jpSur, jpDcha, jpIzda, jpCentro, panel1, panel2, panel3;
     private JButton[] botones;
     private JLabel[] label;
     private JCheckBox[] checkb;
     private JRadioButton[] radio;
+    private JTextField jtf;
 
     public Border() {
         jpSup = new JPanel();
@@ -46,6 +49,9 @@ public class Border extends JFrame {
         jpDcha = new JPanel();
         jpIzda = new JPanel();
         jpCentro = new JPanel();
+        panel1 = new JPanel();
+        panel2 = new JPanel();
+        panel3 = new JPanel();
         BorderLayout b1 = new BorderLayout();
 
         jpSup.setBackground(Color.red);
@@ -95,13 +101,37 @@ public class Border extends JFrame {
             jpSur.add(radio[i]);
         }
 
+        //Panel1
+        panel1.setLayout(new GridLayout(4, 3, 2, 2));
+        label = new JLabel[2];
+        for (int i = 0; i < 2; i++) {
+            label[i] = new JLabel("Opcion " + i);
+            panel1.add(label[i]);
+        }
+
+        //Panel 2
+        panel2.setLayout(new GridLayout(4, 3, 5, 5));
+        label = new JLabel[2];
+        for (int i = 0; i < 2; i++) {
+            label[i] = new JLabel("Opc" + i);
+            panel2.add(label[i]);
+        }
+
+        //Panel 3 
+        panel3.setLayout(new GridLayout(4, 3, 5, 5));
+        label = new JLabel[1];
+        for (int i = 0; i < 1; i++) {
+            label[i] = new JLabel("Opcion " + i);
+            panel3.add(label[i]);
+            jtf = new JTextField("Nombre: ");
+            panel3.add(jtf);
+        }
+
         //Centro
         jpCentro.setLayout(new CardLayout());
-        botones = new JButton[3];
-        for (int i = 0; i < 3; i++) {
-            botones[i] = new JButton(i + "");
-            jpCentro.add(botones[i]);
-        }
+        jpCentro.add(panel1);
+        jpCentro.add(panel2);
+        jpCentro.add(panel3);
 
         pack();
         this.setLocationRelativeTo(null);
