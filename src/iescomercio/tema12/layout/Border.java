@@ -26,14 +26,7 @@ import javax.swing.WindowConstants;
  * @author VESPERTINO
  */
 public class Border extends JFrame {
-    /*Implementar un programa haciendo uso de Swing 
-     que muestre una ventana con un borderlayout donde en el 
-     Arriba amarillo
-     Izda: azul
-     Derecho: Verde
-     Abajo: naranja
-     posteriormente en el central mediente border layout, mostrará otra vez, que rote*/
-
+    
 //panel 1 grid 2*2 
 // 2 label y 1 jtextfield
     private JPanel jpSup, jpSur, jpDcha, jpIzda, jpCentro, panel1, panel2, panel3;
