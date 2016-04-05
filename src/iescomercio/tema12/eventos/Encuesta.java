@@ -8,6 +8,8 @@ package iescomercio.tema12.eventos;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.HeadlessException;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
@@ -61,25 +63,29 @@ public class Encuesta extends JFrame {
                 metodoAlHacerClickEnBoton2();
             }
         });
+        
+        Image icon = new ImageIcon(
+                getClass().getResource("/imagenes/award_star_gold_2.png")).getImage();
+        setIconImage(icon);
 
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         pack();
         setVisible(true);
+        
     }
 
     public void metodoAlHacerClickEnBoton1() {
         si++;
-        jlbSies.setText("Sies: "+si);
+        jlbSies.setText("Sies: " + si);
     }
 
     public void metodoAlHacerClickEnBoton2() {
         no++;
-        jlbNoes.setText("Noes: " +no);
+        jlbNoes.setText("Noes: " + no);
     }
 
     public static void main(String[] args) {
         Encuesta e = new Encuesta();
     }
-
 }
