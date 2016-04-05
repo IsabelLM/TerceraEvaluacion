@@ -7,6 +7,10 @@ package iescomercio.tema12.layout.rotarColores;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.util.ArrayList;
+import static javafx.scene.paint.Color.color;
+import static javafx.scene.paint.Color.color;
+import static javafx.scene.paint.Color.color;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -16,17 +20,11 @@ import javax.swing.JPanel;
  */
 public class Rotar extends JFrame {
 
-    private JPanel panel1, panel2, panel3, panel4, panel5;
-    private Color[] colores;
+    private JPanel[] paneles, panelesCentrales;
 
     public Rotar() {
-        panel1 = new JPanel();
-        panel2 = new JPanel();
-        panel3 = new JPanel();
-        panel4 = new JPanel();
-        panel5 = new JPanel();
-        colores = new Color[4];
-        BorderLayout b1 = new BorderLayout();
+       paneles =  new JPanel[3];
+       panelesCentrales=new ArrayList();
 
     }
 }
