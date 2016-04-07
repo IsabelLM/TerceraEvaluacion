@@ -43,6 +43,7 @@ public class Grid extends JFrame {
         this.setTitle("Calculadora");
         this.setVisible(true);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        
     }
     
     public static void main(String[] args) {

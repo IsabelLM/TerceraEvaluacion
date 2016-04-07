@@ -5,66 +5,112 @@
  */
 package iescomercio.tema12.eventos;
 
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.WindowConstants;
+import java.awt.Image;
+import java.awt.event.*;
+import javax.swing.*;
 
 /**
  *
  * @author VESPERTINO
  */
-public class Calculadora extends JFrame {
+public class Calculadora extends JFrame implements ActionListener{
 
-    private javax.swing.JButton[] botones;
-    private javax.swing.JButton jb1, jb2, jb3, jbIgual;
-    private JLabel jlResultados;
-    private JPanel jpResultados, jpIgual, jpNumeros;
+   private JPanel jpPantalla, jpBotonera, jpIgual;
+    private JLabel jlPantalla;
+    private JButton[] jbBotonera;
+    private JButton jbIgual;
+    private StringBuilder sb;
+    private int operando1, operando2;
+    private char operador;
 
     public Calculadora() {
-        //Crear botones, label...
-        jlResultados = new JLabel();
+        //Indicamos el Layout que deseamos
+        this.getContentPane().setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS));
+        sb = new StringBuilder();   // Inicialimazos el StringBuilder
 
-        botones = new JButton[9];
-        for (int i = 0; i < 9; i++) {
-            botones[i] = new JButton("" + (i + 1));
+        jpPantalla = new JPanel(new GridLayout(1, 1));  //Creamos un JPanel para la pantalla de tipo GridLayout
+        jlPantalla = new JLabel("", SwingConstants.CENTER);   //Inicalizamos el JLabel a 0 y que aparezca en el centro
+        jpPantalla.add(jlPantalla);   //Añadimos el JLabel al JPanel
+        this.add(jpPantalla);   //Añadimos el JPanel al Layout
+
+        jpBotonera = new JPanel(new GridLayout(4, 3, 2, 2)); //Creamos un JPanel para la botonera de tipo GridLayout
+        jbBotonera = new JButton[12];   //Inicializamos el array de JButton con 12 botones
+
+        //En el siguiente bucle inicializamos y añadimos los 10 primeros botones, con valores de 0 a 9, al JPanel botonera
+        for (int i = 0; i < 10; i++) {
+            jbBotonera[i] = new JButton(Integer.toString(i));
+            jpBotonera.add(jbBotonera[i]);
         }
-        jb1 = new JButton("0");
-        jb2 = new JButton("+");
-        jb3 = new JButton("-");
-        jbIgual = new JButton("=");
+        //Inicializamos y añadimos dos dos botones restantes de "+" y "-" al JPanel de botonera
+        jbBotonera[10] = new JButton("+");
+        jbBotonera[11] = new JButton("-");
+        jpBotonera.add(jbBotonera[10]);
+        jpBotonera.add(jbBotonera[11]);
+        this.add(jpBotonera);   //Añadimos el JPanel botonera al Layout
 
-        //Creacion paneles
-        jpResultados = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
-        
-        jpIgual = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
+        //Creamos un JPanel para el boton igual de tipo GridLayout
+        jpIgual = new JPanel(new GridLayout(1, 1, 3, 3));
+        jbIgual = new JButton("="); //Inicializamos el boton igual
+        jpIgual.add(jbIgual);  //Añadimos el boton igual al JPanel igual
+        this.add(jpIgual);  //Añadimos el JPanel igual a Layout
 
-        jpResultados.add(jlResultados);
-//        this.getContentPane().setLayout(new GridLayout(4, 3, 5, 5));
-//        getContentPane().add(jpResultados);
-
-        add(jb1);
-        for (int i = 0; i < 9; i++) {
-            this.getContentPane().add(botones[i]);
+        //Añadimos los eventos de cada boton con un bucle
+        for (int i = 0; i < 12; i++) {
+            jbBotonera[i].addActionListener(this);
         }
-        add(jb2);
-        add(jb3);
-        getContentPane().add(jpIgual);
+        jbIgual.addActionListener(this);
 
-        jpIgual.add(jbIgual);
-
+        //Ponemos un icono al programa
+        Image icon = new ImageIcon(getClass().getResource("/imagenes/award_star_gold_2.png")).getImage();
+        setIconImage(icon);
+        setLocationRelativeTo(null); //Centramos la pantalla
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //Se termina el programa al cerrar la ventana
         pack();
-        //Mostramos la ventana
-        this.setLocationRelativeTo(null);
-        this.setTitle("Calculadora");
-        this.setVisible(true);
-        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Calculadora");  //Añadimos un título
+        setVisible(true); //Lo hacemos visible
+        setSize(175, 250); //Dimensiones de la ventana
+        setResizable(false); //Hacemos que no se pueda ampliar
+
+    }
+
+    //Metodo para crear los eventos
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        //Cada uno de los ifs hara que al clicar en cada boton, aparezca en el JLabel su número correspondiente o
+        //su simbolo
+        JButton aux = (JButton) e.getSource();
+        if (aux.getText().equals("+")) {
+            // Guardamos el primer operando
+            operando1 = Integer.parseInt(jlPantalla.getText());
+            operador = '+';
+            // Borramos el label
+            jlPantalla.setText("");
+        }else if (aux.getText().equals("-")){
+            operando1 = Integer.parseInt(jlPantalla.getText());
+            operador = '-';
+            jlPantalla.setText("");
+        }else if (aux.getText().equals("=")) {
+            if (operador == '+') {
+                int dato = operando1 + Integer.parseInt(jlPantalla.getText());
+                jlPantalla.setText(dato+"");
+                operando1 = 0;
+                operando2 = 0;
+            }else if(operador ==  '-'){
+                int dato = operando1 - Integer.parseInt(jlPantalla.getText());
+                jlPantalla.setText(dato+"");
+                operando1 = 0;
+                operando2 = 0;
+            }
+        } else {
+            String s = jlPantalla.getText();
+            jlPantalla.setText(s + aux.getText());
+        }
+
     }
 
     public static void main(String[] args) {
-        Calculadora g = new Calculadora();
+        //Inicializamos el programa en el main
+        Calculadora c = new Calculadora();
     }
 }

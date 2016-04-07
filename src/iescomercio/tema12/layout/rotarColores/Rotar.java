@@ -24,7 +24,7 @@ public class Rotar extends JFrame {
 
     public Rotar() {
        paneles =  new JPanel[3];
-       panelesCentrales=new ArrayList();
+   //    panelesCentrales=new ArrayList();
 
     }
 }
