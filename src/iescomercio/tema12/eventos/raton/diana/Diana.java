@@ -27,7 +27,9 @@ public class Diana extends JFrame implements MouseListener {
         getContentPane().setLayout(null);
         getContentPane().add(jlDiana);
         
-        this.setComponentZOrder(jlDiana, 1);
+        
+        //this.setComponentZOrder(jlDiana, 1);
+        
         
         jlDiana.setBounds(10, 10, aux.getIconWidth(), aux.getIconHeight());
 
