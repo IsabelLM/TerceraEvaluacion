@@ -16,7 +16,7 @@ import javax.swing.*;
  *
  * @author VESPERTINO
  */
-public class Bola extends JFrame implements KeyListener {
+public class Bola extends JFrame implements KeyListener{
 
     private JPanel jpPanel;
     private JLabel jlbBola;
