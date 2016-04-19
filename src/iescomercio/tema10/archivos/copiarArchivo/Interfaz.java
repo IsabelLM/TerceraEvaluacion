@@ -33,7 +33,7 @@ public class Interfaz extends JFrame implements ActionListener {
         jfcDestino = new JFileChooser();
 
         //Para poder elegir solo el directorio
-        jfcDestino.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+//        jfcDestino.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 
         boton = new JButton("Copiar");
 
@@ -82,7 +82,7 @@ public class Interfaz extends JFrame implements ActionListener {
                 jlRutaOrigen.setText(file.getPath());
             }
         } else if (e.getSource() == abrirD) {
-            int returnVal = jfcDestino.showOpenDialog(Interfaz.this);
+            int returnVal = jfcDestino.showSaveDialog(Interfaz.this);
 
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 File file = jfcDestino.getSelectedFile();
