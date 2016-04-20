@@ -10,5 +10,5 @@ package iescomercio.tema10.archivos.claseRandomAccessFile;
  * @author VESPERTINO
  */
 public class Copiar {
-    private Interfaz gui;
+    private InterfazRandomAccessFile gui;
 }
