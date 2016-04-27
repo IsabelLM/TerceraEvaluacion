@@ -8,7 +8,6 @@ package iescomercio.tema10.dateInputOutputStream;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
-import java.awt.HeadlessException;
 import javax.swing.*;
 
 /**
@@ -18,8 +17,8 @@ import javax.swing.*;
 public class Interfaz extends JFrame {
 
     private JButton jbAlta, jbBaja, jbModificar, jbConsulta, jbAtras, jbAdelante, jbAceptar;
-    private JTextArea jtaNombre, jtaApe1, jtaApe2, jtaDni;
-    private JLabel jlNombre, jlApe1, jlApe2, jlDni;
+    private JTextArea jtaNombre, jtaApe1, jtaApe2, jtaDni, jtaTelefono;
+    private JLabel jlNombre, jlApe1, jlApe2, jlDni, jlTelefono;
     private JPanel jpFlow, jpGrid;
 
     public Interfaz() {
@@ -43,7 +42,10 @@ public class Interfaz extends JFrame {
         jlDni = new JLabel("Dni:");
         jtaDni = new JTextArea();
 
-        jpGrid = new JPanel(new GridLayout(4, 2,10,10));
+        jlTelefono = new JLabel("Telefono:");
+        jtaTelefono = new JTextArea();
+
+        jpGrid = new JPanel(new GridLayout(5, 2, 10, 10));
         jpFlow = new JPanel(new FlowLayout());
 
         jpGrid.add(jlNombre);
@@ -54,6 +56,8 @@ public class Interfaz extends JFrame {
         jpGrid.add(jtaApe2);
         jpGrid.add(jlDni);
         jpGrid.add(jtaDni);
+        jpGrid.add(jlTelefono);
+        jpGrid.add(jtaTelefono);
 
         jpFlow.add(jbAlta);
         jpFlow.add(jbBaja);
@@ -66,15 +70,12 @@ public class Interfaz extends JFrame {
         getContentPane().setLayout(new BorderLayout());
         getContentPane().add(jpFlow, BorderLayout.NORTH);
         getContentPane().add(jpGrid, BorderLayout.CENTER);
-        
+
         pack();
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
 
-        
     }
-    
-   
 
 }

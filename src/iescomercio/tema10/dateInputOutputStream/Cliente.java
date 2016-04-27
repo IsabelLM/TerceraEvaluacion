@@ -5,20 +5,23 @@
  */
 package iescomercio.tema10.dateInputOutputStream;
 
+import java.util.Objects;
+
 /**
  *
  * @author VESPERTINO
  */
 public class Cliente {
 
-    private String nombre, apellido1, apellido2;
-    private int dni;
+    private String nombre, apellido1, apellido2, dni;
+    private long telefono;
 
-    public Cliente(String nombre, String apellido1, String apellido2, int dni) {
+    public Cliente(String nombre, String apellido1, String apellido2, String dni, long telefono) {
         this.nombre = nombre;
         this.apellido1 = apellido1;
         this.apellido2 = apellido2;
         this.dni = dni;
+        this.telefono = telefono;
     }
 
     public String getNombre() {
@@ -45,25 +48,46 @@ public class Cliente {
         this.apellido2 = apellido2;
     }
 
+    public long getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(long telefono) {
+        this.telefono = telefono;
+    }
+
         
-    public int getDni() {
+    public String getDni() {
         return dni;
     }
 
-    public void setDni(int dni) {
+    public void setDni(String dni) {
         this.dni = dni;
     }
 
     @Override
-    public boolean equals(Object obj) {
-        Cliente aux = (Cliente) obj;
-        if (aux.getDni() == this.getDni()) {
-            return true;
-        } else {
-            return false;
-        }
+    public int hashCode() {
+        int hash = 7;
+        return hash;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Cliente other = (Cliente) obj;
+        if (!Objects.equals(this.dni, other.dni)) {
+            return false;
+        }
+        return true;
+    }
+
+    
+    
     @Override
     public String toString() {
         return getDni() + " " + getNombre();
