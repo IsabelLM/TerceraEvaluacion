@@ -7,7 +7,6 @@ package iescomercio.tema10.dateInputOutputStream;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -37,7 +36,7 @@ public class CursorCliente {
         if (arrayList.contains(c) == false) {
             aux = false;
         } else {
-            arrayList.remove(arrayList.indexOf(c));
+            arrayList.remove(c);
         }
         return aux;
     }
@@ -51,25 +50,50 @@ public class CursorCliente {
     }
 
     public void escribirRegistro() {
+        DataOutputStream escribir = null;
         try {
-            DataOutputStream escribir = new DataOutputStream(new FileOutputStream("E:\\clientes.dat"));
-            Iterator it = arrayList.iterator();
-            
-            for (Iterator<Cliente> iterator = arrayList.iterator(); iterator.hasNext();) {
-                Cliente next = iterator.next();
-                escribir.writeChars(next.getDni());
-                escribir.writeChars(next.getNombre());
-                escribir.writeChars(next.getApellido1());
-                escribir.writeChars(next.getApellido2());
-                escribir.writeLong(next.getTelefono());
+            escribir = new DataOutputStream(new FileOutputStream("E:\\clientes.dat"));
+
+            for (int i = 0; i < arrayList.size(); i++) {
+                escribir.writeUTF(arrayList.get(i).getDni());
+                escribir.writeUTF(arrayList.get(i).getNombre());
+                escribir.writeUTF(arrayList.get(i).getApellido1());
+                escribir.writeUTF(arrayList.get(i).getApellido2());
+                escribir.writeLong(arrayList.get(i).getTelefono());
             }
 
         } catch (FileNotFoundException ex) {
             Logger.getLogger(CursorCliente.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(CursorCliente.class.getName()).log(Level.SEVERE, null, ex);
+        }finally{
+            try {
+                escribir.close();
+            } catch (IOException ex) {
+                Logger.getLogger(CursorCliente.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-
     }
 
+    public void leerRegistro() {
+        DataInputStream lectura = null;
+
+        try {
+            lectura = new DataInputStream(new FileInputStream("E:\\clientes.dat"));
+            while (true) {
+                alta(new Cliente(lectura.readUTF(), lectura.readUTF(), lectura.readUTF(), lectura.readUTF(), lectura.readLong()));
+            }
+
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(CursorCliente.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(CursorCliente.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                lectura.close();
+            } catch (IOException ex) {
+                Logger.getLogger(CursorCliente.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
 }
