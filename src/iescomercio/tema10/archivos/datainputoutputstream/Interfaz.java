@@ -153,6 +153,7 @@ public class Interfaz extends JFrame implements ActionListener, WindowListener {
             permitirEditarTodo(true);
             borrarTexto(); //borrar lo que habia previamente escrito
             setJbPulsado(jbAlta); //Guardamos el botón que hemos pulsado ahora, para utilizarlo al presionar el botón de aceptar
+            
         } else if (e.getSource() == jbBaja) {
             JOptionPane.showMessageDialog(rootPane, "Introduce el dni del cliente que quieres borrar");
             editarSoloDni(true);
@@ -182,7 +183,7 @@ public class Interfaz extends JFrame implements ActionListener, WindowListener {
     }
 
     public void accionesAceptar() {
-        //Hay que comprobar qué botón hemos pulsado antes para saber qué es lo que tiene que pasar al aceptar en cada caso
+        //Hay que comprobar qué botón hemos pulsado antes para saber qué es lo que tiene que pasar en cada caso
         if (jbPulsado == jbAlta) {
             //tras escribir los datos, si le damos a aceptar, crea un nuevo cliente y lo da de alta
             cursor.alta(crearCliente());
@@ -205,14 +206,14 @@ public class Interfaz extends JFrame implements ActionListener, WindowListener {
             viejo.setDni(jtaDni.getText());
             borrarTexto();
             permitirEditarTodo(true);
-            //Tras introducir los datos del cliente viejo, aceptamos y llamamos a este metodo
+            //Tras introducir los datos del cliente viejo, aceptamos y llamamos a este método
             aceptarAlModificar2(viejo);
 
         }
     }
 
     public void aceptarAlModificar2(Cliente viejo) {
-        //Método que actúa cuando pulsamos por segunda vez en aceptar
+        //Método que actúa cuando pulsamos aceptamos por segunda vez, al modificar un cliente
         //recibe el cliente viejo y crea uno nuevo a partir de los datos que hemos metido.
         cursor.modificar(crearCliente(), viejo);
         JOptionPane.showMessageDialog(rootPane, "Se ha modificado el cliente.");
