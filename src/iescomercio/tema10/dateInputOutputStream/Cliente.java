@@ -16,6 +16,9 @@ public class Cliente {
     private String nombre, apellido1, apellido2, dni;
     private long telefono;
 
+    public Cliente() {
+    }
+
     public Cliente(String nombre, String apellido1, String apellido2, String dni, long telefono) {
         this.nombre = nombre;
         this.apellido1 = apellido1;

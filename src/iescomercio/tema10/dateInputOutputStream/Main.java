@@ -10,8 +10,8 @@ package iescomercio.tema10.dateInputOutputStream;
  * @author VESPERTINO
  */
 public class Main {
+
     public static void main(String[] args) {
         Interfaz a = new Interfaz();
-        
     }
 }
