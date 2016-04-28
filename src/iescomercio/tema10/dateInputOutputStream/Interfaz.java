@@ -115,30 +115,49 @@ public class Interfaz extends JFrame implements ActionListener, WindowListener {
         jtaTelefono.setText("");
     }
 
+    public void rellenar(Cliente c) {
+        if (c != null) {
+            jtaDni.setText(c.getDni());
+            jtaApe1.setText(c.getApellido1());
+            jtaApe2.setText(c.getApellido2());
+            jtaNombre.setText(c.getNombre());
+            jtaTelefono.setText(String.valueOf(c.getTelefono()));
+        } else {
+                JOptionPane.showMessageDialog(rootPane, "No hay clientes");
+
+        }
+    }
+
+    public Cliente crearCliente() {
+        Cliente aux = new Cliente();
+        long tlf;
+        aux.setNombre(jtaNombre.getText());
+        aux.setApellido1(jtaApe1.getText());
+        aux.setApellido2(jtaApe2.getText());
+        aux.setDni(jtaDni.getText());
+        tlf = Long.parseLong(jtaTelefono.getText());
+        aux.setTelefono(tlf);
+        return aux;
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == jbAlta) {
+            permitirEditarTodo(true);
             borrarTexto(); //borrar lo que habia previamente escrito
             if (e.getSource() == jbAceptar) { //tras escribir los datos, si le damos a aceptar, crea un nuevo cliente y lo da de alta
-                Cliente aux = new Cliente();
-                long tlf;
-                aux.setNombre(jtaNombre.getText());
-                aux.setApellido1(jtaApe1.getText());
-                aux.setApellido2(jtaApe2.getText());
-                aux.setDni(jtaDni.getText());
-                tlf = Long.parseLong(jtaTelefono.getText());
-                aux.setTelefono(tlf);
-                cursor.alta(aux);
-                borrarTexto();
+                cursor.alta(crearCliente());
+                JOptionPane.showMessageDialog(rootPane, "Se ha dado de alta.");
             }
         } else if (e.getSource() == jbBaja) {
             editarSoloDni(true);
+            // jtaDni.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
             borrarTexto();
-            if (e.getSource() == jbAceptar) {
+            if (e.getSource() == jbAceptar) {//al aceptar borra el cliente que hemos señalado
                 Cliente aux = new Cliente();
                 aux.setDni(jtaDni.getText());
                 cursor.baja(aux);
-                borrarTexto();
+                JOptionPane.showMessageDialog(rootPane, "Se ha dado de baja.");
             }
         } else if (e.getSource() == jbConsulta) {
             editarSoloDni(true);
@@ -146,48 +165,43 @@ public class Interfaz extends JFrame implements ActionListener, WindowListener {
             if (e.getSource() == jbAceptar) {
                 Cliente aux = new Cliente();
                 aux.setDni(jtaDni.getText());
-                cursor.consulta(aux);
+                    rellenar(cursor.consulta(aux)); //Se rellenan los campos con los datos del ciente
             }
         } else if (e.getSource() == jbModificar) {
             borrarTexto();
-            if (e.getSource() == jbAceptar) { //Primero se pone el dni del que queremos borrar y aceptamos
+            editarSoloDni(true);
+            JOptionPane.showMessageDialog(rootPane, "Introduce primero el dni, acepta e introduce los datos nuevos.");
+            if (e.getSource() == jbAceptar) {
                 Cliente viejo = new Cliente();
                 viejo.setDni(jtaDni.getText());
+                borrarTexto();
+                permitirEditarTodo(true);
                 if (e.getSource() == jbAceptar) { //Ponemos los datos nuevos y aceptamos para modificarlo. 
+                    cursor.modificar(crearCliente(), viejo);
+                    JOptionPane.showMessageDialog(rootPane, "Se ha modificado el cliente.");
                     borrarTexto();
-                    Cliente nuevo = new Cliente();
-                    long tlf;
-                    nuevo.setNombre(jtaNombre.getText());
-                    nuevo.setApellido1(jtaApe1.getText());
-                    nuevo.setApellido2(jtaApe2.getText());
-                    nuevo.setDni(jtaDni.getText());
-                    tlf = Long.parseLong(jtaTelefono.getText());
-                    nuevo.setTelefono(tlf);
-
-                    cursor.modificar(nuevo, viejo);
                 }
             }
-
         } else if (e.getSource() == jbAdelante) {
 
         } else if (e.getSource() == jbAtras) {
-
         }
     }
 
     @Override
     public void windowOpened(WindowEvent e) {
-
+        //cursor.leerRegistro();
     }
 
     @Override
     public void windowClosing(WindowEvent e) {
-        // cursor.escribirRegistro();
+        cursor.escribirRegistro();
 
     }
 
     @Override
     public void windowClosed(WindowEvent e) {
+
     }
 
     @Override
