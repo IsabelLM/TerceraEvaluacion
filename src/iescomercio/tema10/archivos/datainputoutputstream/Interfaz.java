@@ -20,7 +20,7 @@ public class Interfaz extends JFrame implements ActionListener, WindowListener {
     private JLabel jlNombre, jlApe1, jlApe2, jlDni, jlTelefono;
     private JPanel jpFlow, jpGrid;
     private CursorCliente cursor;
-
+    
     public Interfaz() {
         cursor = new CursorCliente();
 
@@ -91,10 +91,6 @@ public class Interfaz extends JFrame implements ActionListener, WindowListener {
 
     }
 
-    public JButton getJbPulsado() {
-        return jbPulsado;
-    }
-
     public void setJbPulsado(JButton jbPulsado) {
         this.jbPulsado = jbPulsado;
     }
@@ -135,6 +131,11 @@ public class Interfaz extends JFrame implements ActionListener, WindowListener {
         }
     }
 
+    public void rellenarAlIniciarAplicación() {
+        //Método que rellena los huecos con el primer cliente, al ejecutar.
+
+    }
+
     public Cliente crearCliente() {
         Cliente aux = new Cliente();
         long tlf;
@@ -153,7 +154,7 @@ public class Interfaz extends JFrame implements ActionListener, WindowListener {
             permitirEditarTodo(true);
             borrarTexto(); //borrar lo que habia previamente escrito
             setJbPulsado(jbAlta); //Guardamos el botón que hemos pulsado ahora, para utilizarlo al presionar el botón de aceptar
-            
+
         } else if (e.getSource() == jbBaja) {
             JOptionPane.showMessageDialog(rootPane, "Introduce el dni del cliente que quieres borrar");
             editarSoloDni(true);
@@ -221,42 +222,34 @@ public class Interfaz extends JFrame implements ActionListener, WindowListener {
     }
 
     @Override
-    public void windowOpened(WindowEvent e
-    ) {
-        //cursor.leerRegistro();
+    public void windowOpened(WindowEvent e) {
+        //  cursor.leerRegistro();
     }
 
     @Override
-    public void windowClosing(WindowEvent e
-    ) {
+    public void windowClosing(WindowEvent e) {
         cursor.escribirRegistro();
+    }
+
+    @Override
+    public void windowClosed(WindowEvent e) {
 
     }
 
     @Override
-    public void windowClosed(WindowEvent e
-    ) {
-
+    public void windowIconified(WindowEvent e) {
     }
 
     @Override
-    public void windowIconified(WindowEvent e
-    ) {
+    public void windowDeiconified(WindowEvent e) {
     }
 
     @Override
-    public void windowDeiconified(WindowEvent e
-    ) {
+    public void windowActivated(WindowEvent e) {
     }
 
     @Override
-    public void windowActivated(WindowEvent e
-    ) {
-    }
-
-    @Override
-    public void windowDeactivated(WindowEvent e
-    ) {
+    public void windowDeactivated(WindowEvent e) {
     }
 
 }

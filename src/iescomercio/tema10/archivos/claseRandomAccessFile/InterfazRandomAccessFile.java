@@ -1,4 +1,4 @@
-/*
+    /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -6,35 +6,34 @@
 package iescomercio.tema10.archivos.claseRandomAccessFile;
 
 import java.awt.Color;
-import static java.awt.Component.CENTER_ALIGNMENT;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.*;
-import java.util.logging.*;
-import javax.swing.BoxLayout;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.RandomAccessFile;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
-
 /**
  *
  * @author VESPERTINO
  */
-public class InterfazRandomAccessFile extends JFrame implements ActionListener {
-//    private JProgressBar jpBarra;
+public class InterfazRandomAccessFile extends JFrame implements ActionListener, WindowListener {
 
     private JPanel jpColumna;
-    private JLabel jlOrigen, jlOrigenRuta, jlDestino, jlDestinoRuta, jlTamaño;
+    private JLabel jlOrigen, jlOrigenRuta, jlDestino, jlDestinoRuta, jlTamano;
     private JFileChooser jfOrigen, jfDestino;
+    private JTextArea jlTamanoIndicado;
     private JButton jbGo, jbOrigen, jbDestino;
-    private JTextArea jtaTamaño;
-    static private final String newline = "\n";
     private File fileLectura, fileEscritura;
-//si lo quiero en balnco Texarea
+    private RandomAccessFile raLeer, raEscribir;
 
     public InterfazRandomAccessFile() {
 
-//        jpBarra = new JProgressBar(0,100);
-//        jpBarra.setStringPainted(true);//NECESARIO PARA QUE MEUSTRA EL % EN EL JPRrogressBar
         jpColumna = new JPanel(new GridLayout(3, 3));
         jfOrigen = new JFileChooser();
         jfDestino = new JFileChooser();
@@ -47,6 +46,11 @@ public class InterfazRandomAccessFile extends JFrame implements ActionListener {
 
         jlOrigenRuta = new JLabel("");
         jlOrigenRuta.setBackground(Color.WHITE);
+
+        jlTamanoIndicado = new JTextArea("");
+        jlTamanoIndicado.setBackground(Color.WHITE);
+
+        jlTamano = new JLabel("Tamaño");
 
         jlDestino = new JLabel("Destino");
 
@@ -61,10 +65,7 @@ public class InterfazRandomAccessFile extends JFrame implements ActionListener {
         jbDestino.addActionListener(this);
         jbDestino.setAlignmentX(CENTER_ALIGNMENT);
 
-        jlTamaño = new JLabel("Tamaño");
-        jtaTamaño = new JTextArea();
-
-        jbGo = new JButton("Enviar Datos");
+        jbGo = new JButton("empezar!!!");
         jbGo.setAlignmentX(CENTER_ALIGNMENT);
         jbGo.addActionListener(this);
 
@@ -74,14 +75,13 @@ public class InterfazRandomAccessFile extends JFrame implements ActionListener {
         jpColumna.add(jlDestino);
         jpColumna.add(jlDestinoRuta);
         jpColumna.add(jbDestino);
-        jpColumna.add(jlTamaño);
-        jpColumna.add(jtaTamaño);
-
+        jpColumna.add(jlTamano);
+        jpColumna.add(jlTamanoIndicado);
+        this.addWindowListener(this);
         getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
         getContentPane().add(jpColumna);
 
         getContentPane().add(jbGo);
-//        getContentPane().add(jpBarra);
 
         pack();
         setLocationRelativeTo(null);
@@ -105,9 +105,6 @@ public class InterfazRandomAccessFile extends JFrame implements ActionListener {
     public void setJfDestino(JFileChooser jfDestino) {
         this.jfDestino = jfDestino;
     }
-//    public JProgressBar getBarra() {
-//        return jpBarra;
-//    }
 
     public File getFileLectura() {
         return fileLectura;
@@ -123,56 +120,95 @@ public class InterfazRandomAccessFile extends JFrame implements ActionListener {
         if (e.getSource() == jbOrigen) {
             returnVal = jfOrigen.showOpenDialog(this);
             if (returnVal == JFileChooser.APPROVE_OPTION) {
-                fileLectura = jfOrigen.getSelectedFile();
-                jlOrigenRuta.setText(fileLectura.getPath());
-            } else {
-                jlOrigenRuta.setText("fallo al cargar el archivo");
-            }
-            //System.out.println(returnVal);
-        } else if (e.getSource() == jbDestino) {
-            returnVal = jfDestino.showSaveDialog(this);
-            if (returnVal == JFileChooser.APPROVE_OPTION) {
-                fileEscritura = jfDestino.getSelectedFile();
-                jlDestinoRuta.setText(fileEscritura.getPath());
-            } else {
-                jlDestinoRuta.setText("fallo al cargar el archivo");
-            }
-            // System.out.println(returnVal);
-        } else {
-            if ((jlOrigenRuta.getText() != "") && (jlDestinoRuta.getText() != "")) {
-
                 try {
-                    RandomAccessFile rafOrigen = new RandomAccessFile(fileLectura, "r");
-                    RandomAccessFile rafDestino = new RandomAccessFile(fileEscritura, "rw");
-                    long tamaño = Long.parseLong(jtaTamaño.getText());
-                    long aux = rafOrigen.getFilePointer() + tamaño;
-                    byte datos[] = new byte[(int) tamaño];
-
-                    if (aux < fileLectura.length()) {
-
-                        rafOrigen.seek(fileEscritura.length());
-                        rafOrigen.read(datos);
-                        rafDestino.seek(fileEscritura.length());
-                        rafDestino.write(datos);
-
-                    } else {
-                        long restante = fileLectura.length() - aux;
-                        System.out.println("Has puesto un tamaño superior a"
-                                + " los bytes que quedan. Te quedan: " + restante);;
-                    }
-
+                    fileLectura = jfOrigen.getSelectedFile();
+                    jlOrigenRuta.setText(fileLectura.getPath());
+                    raLeer = new RandomAccessFile(fileLectura, "r");
                 } catch (FileNotFoundException ex) {
-                    Logger.getLogger(InterfazRandomAccessFile.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (IOException ex) {
                     Logger.getLogger(InterfazRandomAccessFile.class.getName()).log(Level.SEVERE, null, ex);
                 }
 
+            } else {
+                jlOrigenRuta.setText("fallo al cargar el archivo");
+            }
+        } else if (e.getSource() == jbDestino) {
+            returnVal = jfDestino.showSaveDialog(this);
+            if (returnVal == JFileChooser.APPROVE_OPTION) {
+                try {
+                    fileEscritura = jfDestino.getSelectedFile();
+                    jlDestinoRuta.setText(fileEscritura.getPath());
+                    raEscribir = new RandomAccessFile(fileEscritura, "rw");
+                } catch (FileNotFoundException ex) {
+                    Logger.getLogger(InterfazRandomAccessFile.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                jlDestinoRuta.setText("fallo al cargar el archivo");
+            }
+        } else {
+            if ((jlOrigenRuta.getText() != "") && (jlDestinoRuta.getText() != "")) {
+                try {
+                    if (fileLectura.length() >= fileEscritura.length()) {
+                        int aux = Integer.parseInt(jlTamanoIndicado.getText());
+                        byte datos[] = new byte[aux];
+
+                        //posicionar y leer
+                        raLeer.seek(fileEscritura.length());
+                        raLeer.read(datos);
+                        //posicionar y escribir
+                        raEscribir.seek(fileEscritura.length());
+                        raEscribir.write(datos);
+
+                    } else {
+                        System.out.println("El fichero esta completo puedes copiar " + (fileLectura.length() - fileEscritura.length()) + "byte más ");
+                    }
+                } catch (FileNotFoundException ex) {
+                    System.out.println("Fichero no encontrado");
+                } catch (IOException ex) {
+                    System.out.println("Fallo de la IO");
+                }
             }
         }
     }
 
     public static void main(String[] args) {
         InterfazRandomAccessFile a = new InterfazRandomAccessFile();
+    }
+
+    @Override
+    public void windowOpened(WindowEvent e) {
+    }
+
+    @Override
+    public void windowClosing(WindowEvent e) {
+        try {
+            JOptionPane.showMessageDialog(this, "Cerrando los ficheros");
+            raLeer.close();
+            raEscribir.close();
+        } catch (IOException ex) {
+            Logger.getLogger(InterfazRandomAccessFile.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    @Override
+    public void windowClosed(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowIconified(WindowEvent e) {
+    }
+
+    @Override
+    public void windowDeiconified(WindowEvent e) {
+    }
+
+    @Override
+    public void windowActivated(WindowEvent e) {
+    }
+
+    @Override
+    public void windowDeactivated(WindowEvent e) {
     }
 
 }
