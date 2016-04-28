@@ -15,7 +15,7 @@ import java.util.logging.Logger;
  *
  * @author VESPERTINO
  */
-public class CursorCliente {
+public class CursorCliente implements Serializable {
 
     private ArrayList<Cliente> arrayCursor;
 
@@ -93,4 +93,11 @@ public class CursorCliente {
             Logger.getLogger(CursorCliente.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    @Override
+    public String toString() {
+        return "CursorCliente{" + "arrayCursor=" + arrayCursor + '}';
+    }
+    
+    
 }

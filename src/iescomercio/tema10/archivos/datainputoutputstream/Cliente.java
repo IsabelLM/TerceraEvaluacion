@@ -5,13 +5,14 @@
  */
 package iescomercio.tema10.archivos.datainputoutputstream;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
  *
  * @author VESPERTINO
  */
-public class Cliente {
+public class Cliente implements Serializable{
 
     private String nombre, apellido1, apellido2, dni;
     private long telefono;
@@ -89,11 +90,13 @@ public class Cliente {
         return true;
     }
 
-    
-    
     @Override
     public String toString() {
-        return getDni() + " " + getNombre();
+        return "Cliente{" + "nombre=" + nombre + ", apellido1=" + apellido1 + ", apellido2=" + apellido2 + ", dni=" + dni + ", telefono=" + telefono + '}';
     }
+
+    
+    
+    
 
 }
