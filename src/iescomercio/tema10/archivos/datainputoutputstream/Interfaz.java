@@ -223,7 +223,7 @@ public class Interfaz extends JFrame implements ActionListener, WindowListener {
 
     @Override
     public void windowOpened(WindowEvent e) {
-        //  cursor.leerRegistro();
+        cursor.leerRegistro();
     }
 
     @Override

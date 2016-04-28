@@ -20,17 +20,17 @@ public class CursorCliente {
     private ArrayList<Cliente> arrayCursor;
 
     public CursorCliente() {
-        this.arrayCursor = arrayCursor;
+        arrayCursor = new ArrayList();
     }
 
     public boolean alta(Cliente c) {
         boolean aux = false;
         if (arrayCursor.contains(c)) {
-
+            return false;
         } else {
-            aux = arrayCursor.add(c);
+            arrayCursor.add(c);
+            return true;
         }
-        return aux;
     }
 
     public boolean baja(Cliente c) {
@@ -77,8 +77,18 @@ public class CursorCliente {
                 cliente = new Cliente(lectura.readUTF(), lectura.readUTF(), lectura.readUTF(), lectura.readUTF(), lectura.readLong());
                 arrayCursor.add(cliente);
             } while (true);
+        } catch (EOFException ex) {
+            try {
+                lectura.close();
+            } catch (IOException ex1) {
+                Logger.getLogger(CursorCliente.class.getName()).log(Level.SEVERE, null, ex1);
+            }
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(CursorCliente.class.getName()).log(Level.SEVERE, null, ex);
+            try {
+                lectura.close();
+            } catch (IOException ex1) {
+                Logger.getLogger(CursorCliente.class.getName()).log(Level.SEVERE, null, ex1);
+            }
         } catch (IOException ex) {
             Logger.getLogger(CursorCliente.class.getName()).log(Level.SEVERE, null, ex);
         }
