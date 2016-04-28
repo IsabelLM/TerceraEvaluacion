@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package iescomercio.tema10.dateInputOutputStream;
+package iescomercio.tema10.archivos.datainputoutputstream;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -115,7 +115,7 @@ public class Interfaz extends JFrame implements ActionListener, WindowListener {
         jtaTelefono.setText("");
     }
 
-    public void rellenar(Cliente c) {
+    public void rellenarConDatosCliente(Cliente c) {
         if (c != null) {
             jtaDni.setText(c.getDni());
             jtaApe1.setText(c.getApellido1());
@@ -123,8 +123,7 @@ public class Interfaz extends JFrame implements ActionListener, WindowListener {
             jtaNombre.setText(c.getNombre());
             jtaTelefono.setText(String.valueOf(c.getTelefono()));
         } else {
-                JOptionPane.showMessageDialog(rootPane, "No hay clientes");
-
+            JOptionPane.showMessageDialog(rootPane, "No hay clientes");
         }
     }
 
@@ -150,6 +149,8 @@ public class Interfaz extends JFrame implements ActionListener, WindowListener {
                 JOptionPane.showMessageDialog(rootPane, "Se ha dado de alta.");
             }
         } else if (e.getSource() == jbBaja) {
+            JOptionPane.showMessageDialog(rootPane, "Introduce el dni del cliente que quieres borrar");
+
             editarSoloDni(true);
             // jtaDni.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
             borrarTexto();
@@ -160,12 +161,13 @@ public class Interfaz extends JFrame implements ActionListener, WindowListener {
                 JOptionPane.showMessageDialog(rootPane, "Se ha dado de baja.");
             }
         } else if (e.getSource() == jbConsulta) {
+            JOptionPane.showMessageDialog(rootPane, "Introduce el dni del cliente que quieres consultar");
             editarSoloDni(true);
             borrarTexto();
             if (e.getSource() == jbAceptar) {
                 Cliente aux = new Cliente();
                 aux.setDni(jtaDni.getText());
-                    rellenar(cursor.consulta(aux)); //Se rellenan los campos con los datos del ciente
+                rellenarConDatosCliente(cursor.consulta(aux)); //Se rellenan los campos con los datos del ciente
             }
         } else if (e.getSource() == jbModificar) {
             borrarTexto();
