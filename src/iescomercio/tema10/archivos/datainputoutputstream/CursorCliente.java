@@ -16,16 +16,16 @@ import java.util.logging.Logger;
  */
 public class CursorCliente {
 
-    private ArrayList<Cliente> arrayList;
+    private ArrayList<Cliente> arrayCursor;
 
     public CursorCliente() {
-        this.arrayList = arrayList;
+        this.arrayCursor = arrayCursor;
     }
 
     public boolean alta(Cliente c) {
         boolean aux = true;
         //comprobar si el cliente existe. 
-        if (arrayList.add(c) == false) {
+        if (arrayCursor.add(c) == false) {
             aux = false;
         }
         return aux;
@@ -33,32 +33,32 @@ public class CursorCliente {
 
     public boolean baja(Cliente c) {
         boolean aux = true;
-        if (arrayList.contains(c) == false) {
-            aux = false;
+        if (arrayCursor.contains(c)) {
+            arrayCursor.remove(c);
         } else {
-            arrayList.remove(c);
+            aux = false;
         }
         return aux;
     }
 
     public void modificar(Cliente nuevo, Cliente viejo) {
-        arrayList.add(arrayList.indexOf(viejo), nuevo);
+        arrayCursor.add(arrayCursor.indexOf(viejo), nuevo);
     }
 
     public Cliente consulta(Cliente c) {
-       return arrayList.get(arrayList.indexOf(c));
+        return arrayCursor.get(arrayCursor.indexOf(c));
     }
 
     public void escribirRegistro() {
         DataOutputStream escribir = null;
         try {
             escribir = new DataOutputStream(new FileOutputStream("E:\\clientes.dat"));
-            for (int i = 0; i < arrayList.size(); i++) {
-                escribir.writeUTF(arrayList.get(i).getDni());
-                escribir.writeUTF(arrayList.get(i).getNombre());
-                escribir.writeUTF(arrayList.get(i).getApellido1());
-                escribir.writeUTF(arrayList.get(i).getApellido2());
-                escribir.writeLong(arrayList.get(i).getTelefono());
+            for (int i = 0; i < arrayCursor.size(); i++) {
+                escribir.writeUTF(arrayCursor.get(i).getDni());
+                escribir.writeUTF(arrayCursor.get(i).getNombre());
+                escribir.writeUTF(arrayCursor.get(i).getApellido1());
+                escribir.writeUTF(arrayCursor.get(i).getApellido2());
+                escribir.writeLong(arrayCursor.get(i).getTelefono());
             }
         } catch (FileNotFoundException ex) {
             Logger.getLogger(CursorCliente.class.getName()).log(Level.SEVERE, null, ex);

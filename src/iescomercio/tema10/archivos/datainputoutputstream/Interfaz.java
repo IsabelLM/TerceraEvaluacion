@@ -177,37 +177,46 @@ public class Interfaz extends JFrame implements ActionListener, WindowListener {
         } else if (e.getSource() == jbAtras) {
 
         } else if (e.getSource() == jbAceptar) {
-            //Hay que comprobar qué botón hemos pulsado antes para saber qué es lo que tiene que pasar al aceptar en cada caso
-            if (jbPulsado == jbAlta) {
-                //tras escribir los datos, si le damos a aceptar, crea un nuevo cliente y lo da de alta
-                cursor.alta(crearCliente());
-                JOptionPane.showMessageDialog(rootPane, "Se ha dado de alta.");
-            } else if (jbPulsado == jbBaja) {
-                //al aceptar borra el cliente que hemos señalado
-                Cliente aux = new Cliente();
-                aux.setDni(jtaDni.getText());
-                cursor.baja(aux);
-                JOptionPane.showMessageDialog(rootPane, "Se ha dado de baja.");
-            } else if (jbPulsado == jbConsulta) {
-                Cliente aux = new Cliente();
-                aux.setDni(jtaDni.getText());
-                rellenarConDatosCliente(cursor.consulta(aux)); //Se rellenan los campos con los datos del ciente
-
-            } else if (jbPulsado == jbModificar) {
-                Cliente viejo = new Cliente();
-                viejo.setDni(jtaDni.getText());
-                borrarTexto();
-                permitirEditarTodo(true);
-                if (e.getSource() == jbAceptar) { //Ponemos los datos nuevos y aceptamos para modificarlo. 
-                    cursor.modificar(crearCliente(), viejo);
-                    JOptionPane.showMessageDialog(rootPane, "Se ha modificado el cliente.");
-                    borrarTexto();
-                }
-            }
+            accionesAceptar();
         }
     }
 
-    public void aceptarModificar1() {
+    public void accionesAceptar() {
+        //Hay que comprobar qué botón hemos pulsado antes para saber qué es lo que tiene que pasar al aceptar en cada caso
+        if (jbPulsado == jbAlta) {
+            //tras escribir los datos, si le damos a aceptar, crea un nuevo cliente y lo da de alta
+            cursor.alta(crearCliente());
+            JOptionPane.showMessageDialog(rootPane, "Se ha dado de alta.");
+
+        } else if (jbPulsado == jbBaja) {
+            //al aceptar borra el cliente que hemos señalado
+            Cliente aux = new Cliente();
+            aux.setDni(jtaDni.getText());
+            cursor.baja(aux);
+            JOptionPane.showMessageDialog(rootPane, "Se ha dado de baja.");
+
+        } else if (jbPulsado == jbConsulta) {
+            Cliente aux = new Cliente();
+            aux.setDni(jtaDni.getText());
+            rellenarConDatosCliente(cursor.consulta(aux)); //Se rellenan los campos con los datos del ciente
+
+        } else if (jbPulsado == jbModificar) {
+            Cliente viejo = new Cliente();
+            viejo.setDni(jtaDni.getText());
+            borrarTexto();
+            permitirEditarTodo(true);
+            //Tras introducir los datos del cliente viejo, aceptamos y llamamos a este metodo
+            aceptarAlModificar2(viejo);
+
+        }
+    }
+
+    public void aceptarAlModificar2(Cliente viejo) {
+        //Método que actúa cuando pulsamos por segunda vez en aceptar
+        //recibe el cliente viejo y crea uno nuevo a partir de los datos que hemos metido.
+        cursor.modificar(crearCliente(), viejo);
+        JOptionPane.showMessageDialog(rootPane, "Se ha modificado el cliente.");
+        borrarTexto();
     }
 
     @Override
