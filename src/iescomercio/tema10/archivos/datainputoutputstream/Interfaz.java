@@ -15,7 +15,7 @@ import javax.swing.*;
  */
 public class Interfaz extends JFrame implements ActionListener, WindowListener {
 
-    private JButton jbAlta, jbBaja, jbModificar, jbConsulta, jbAtras, jbAdelante, jbAceptar;
+    private JButton jbAlta, jbBaja, jbModificar, jbConsulta, jbAtras, jbAdelante, jbAceptar, jbPulsado;
     private JTextArea jtaNombre, jtaApe1, jtaApe2, jtaDni, jtaTelefono;
     private JLabel jlNombre, jlApe1, jlApe2, jlDni, jlTelefono;
     private JPanel jpFlow, jpGrid;
@@ -91,6 +91,14 @@ public class Interfaz extends JFrame implements ActionListener, WindowListener {
 
     }
 
+    public JButton getJbPulsado() {
+        return jbPulsado;
+    }
+
+    public void setJbPulsado(JButton jbPulsado) {
+        this.jbPulsado = jbPulsado;
+    }
+
     public void permitirEditarTodo(Boolean b) {
         jtaApe1.setEditable(true);
         jtaApe2.setEditable(true);
@@ -144,36 +152,48 @@ public class Interfaz extends JFrame implements ActionListener, WindowListener {
         if (e.getSource() == jbAlta) {
             permitirEditarTodo(true);
             borrarTexto(); //borrar lo que habia previamente escrito
-            if (e.getSource() == jbAceptar) { //tras escribir los datos, si le damos a aceptar, crea un nuevo cliente y lo da de alta
-                cursor.alta(crearCliente());
-                JOptionPane.showMessageDialog(rootPane, "Se ha dado de alta.");
-            }
+            setJbPulsado(jbAlta); //Guardamos el botón que hemos pulsado ahora, para utilizarlo al presionar el botón de aceptar
         } else if (e.getSource() == jbBaja) {
             JOptionPane.showMessageDialog(rootPane, "Introduce el dni del cliente que quieres borrar");
-
             editarSoloDni(true);
             // jtaDni.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
             borrarTexto();
-            if (e.getSource() == jbAceptar) {//al aceptar borra el cliente que hemos señalado
-                Cliente aux = new Cliente();
-                aux.setDni(jtaDni.getText());
-                cursor.baja(aux);
-                JOptionPane.showMessageDialog(rootPane, "Se ha dado de baja.");
-            }
+            setJbPulsado(jbBaja);
+
         } else if (e.getSource() == jbConsulta) {
             JOptionPane.showMessageDialog(rootPane, "Introduce el dni del cliente que quieres consultar");
             editarSoloDni(true);
             borrarTexto();
-            if (e.getSource() == jbAceptar) {
-                Cliente aux = new Cliente();
-                aux.setDni(jtaDni.getText());
-                rellenarConDatosCliente(cursor.consulta(aux)); //Se rellenan los campos con los datos del ciente
-            }
+            setJbPulsado(jbConsulta);
+
         } else if (e.getSource() == jbModificar) {
             borrarTexto();
             editarSoloDni(true);
             JOptionPane.showMessageDialog(rootPane, "Introduce primero el dni, acepta e introduce los datos nuevos.");
-            if (e.getSource() == jbAceptar) {
+            setJbPulsado(jbModificar);
+
+        } else if (e.getSource() == jbAdelante) {
+
+        } else if (e.getSource() == jbAtras) {
+
+        } else if (e.getSource() == jbAceptar) {
+            //Hay que comprobar qué botón hemos pulsado antes para saber qué es lo que tiene que pasar al aceptar en cada caso
+            if (jbPulsado == jbAlta) {
+                //tras escribir los datos, si le damos a aceptar, crea un nuevo cliente y lo da de alta
+                cursor.alta(crearCliente());
+                JOptionPane.showMessageDialog(rootPane, "Se ha dado de alta.");
+            } else if (jbPulsado == jbBaja) {
+                //al aceptar borra el cliente que hemos señalado
+                Cliente aux = new Cliente();
+                aux.setDni(jtaDni.getText());
+                cursor.baja(aux);
+                JOptionPane.showMessageDialog(rootPane, "Se ha dado de baja.");
+            } else if (jbPulsado == jbConsulta) {
+                Cliente aux = new Cliente();
+                aux.setDni(jtaDni.getText());
+                rellenarConDatosCliente(cursor.consulta(aux)); //Se rellenan los campos con los datos del ciente
+
+            } else if (jbPulsado == jbModificar) {
                 Cliente viejo = new Cliente();
                 viejo.setDni(jtaDni.getText());
                 borrarTexto();
@@ -184,42 +204,49 @@ public class Interfaz extends JFrame implements ActionListener, WindowListener {
                     borrarTexto();
                 }
             }
-        } else if (e.getSource() == jbAdelante) {
-
-        } else if (e.getSource() == jbAtras) {
         }
     }
 
+    public void aceptarModificar1() {
+    }
+
     @Override
-    public void windowOpened(WindowEvent e) {
+    public void windowOpened(WindowEvent e
+    ) {
         //cursor.leerRegistro();
     }
 
     @Override
-    public void windowClosing(WindowEvent e) {
+    public void windowClosing(WindowEvent e
+    ) {
         cursor.escribirRegistro();
 
     }
 
     @Override
-    public void windowClosed(WindowEvent e) {
+    public void windowClosed(WindowEvent e
+    ) {
 
     }
 
     @Override
-    public void windowIconified(WindowEvent e) {
+    public void windowIconified(WindowEvent e
+    ) {
     }
 
     @Override
-    public void windowDeiconified(WindowEvent e) {
+    public void windowDeiconified(WindowEvent e
+    ) {
     }
 
     @Override
-    public void windowActivated(WindowEvent e) {
+    public void windowActivated(WindowEvent e
+    ) {
     }
 
     @Override
-    public void windowDeactivated(WindowEvent e) {
+    public void windowDeactivated(WindowEvent e
+    ) {
     }
 
 }
