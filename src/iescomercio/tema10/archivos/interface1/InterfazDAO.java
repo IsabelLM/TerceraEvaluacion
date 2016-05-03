@@ -11,6 +11,20 @@ package iescomercio.tema10.archivos.interface1;
  */
 public interface InterfazDAO {
     
+    public boolean alta(Yates y);
     
+    public boolean baja(Yates y);
     
+    public void modificar(Yates nuevo, Yates viejo);
+    
+    public Yates consulta(Yates y);
+    
+    public Yates dameSiguiente(Yates y);
+    
+    public Yates dameAnterior(Yates y);
+    
+    public void cargarDatos();
+    
+    public void salvarDatos();
 }
+

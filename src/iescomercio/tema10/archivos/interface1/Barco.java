@@ -6,6 +6,7 @@
 package iescomercio.tema10.archivos.interface1;
 
 import java.util.GregorianCalendar;
+import java.util.Objects;
 
 /**
  *
@@ -49,6 +50,29 @@ public class Barco {
         this.añoFabricacion = añoFabricacion;
     }
 
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Barco other = (Barco) obj;
+        if (!Objects.equals(this.matricula, other.matricula)) {
+            return false;
+        }
+        return true;
+    }
+
+    
+    
     //método que calcula cuanto se paga un día
     public float calcularAlquiler() {
         float precioDia;
