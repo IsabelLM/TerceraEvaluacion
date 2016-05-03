@@ -5,6 +5,8 @@
  */
 package iescomercio.tema10.archivos.interface1;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author VESPERTINO
@@ -23,8 +25,8 @@ public interface InterfazDAO {
     
     public Yates dameAnterior(Yates y);
     
-    public void cargarDatos();
+    public ArrayList cargarDatos();
     
-    public void salvarDatos();
+    public void salvarDatos(ArrayList a);
 }
 

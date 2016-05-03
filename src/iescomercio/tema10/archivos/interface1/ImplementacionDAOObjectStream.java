@@ -5,7 +5,10 @@
  */
 package iescomercio.tema10.archivos.interface1;
 
-import java.util.ArrayList;
+import java.io.*;
+import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -14,6 +17,8 @@ import java.util.ArrayList;
 public class ImplementacionDAOObjectStream implements InterfazDAO {
 
     private ArrayList<Yates> arrayYates;
+    private ObjectInputStream leer;
+    private ObjectOutputStream escribir;
 
     public ImplementacionDAOObjectStream() {
         arrayYates = new ArrayList();
@@ -89,11 +94,49 @@ public class ImplementacionDAOObjectStream implements InterfazDAO {
     }
 
     @Override
-    public void cargarDatos() {
+    public ArrayList cargarDatos() {
+
+        try {
+            leer = new ObjectInputStream(new FileInputStream("D:\\a.txt"));
+        } catch (FileNotFoundException ex) {
+            System.out.println("Fallo al abrir el archivo");
+        } catch (IOException ex) {
+            System.out.println("Fallo al abrir el archivo");
+        }
+        try {
+            do {
+                arrayYates.add((Yates) leer.readObject());
+            } while (true);
+        } catch (Exception exa) {
+            System.out.println("Fallo al leer el objeto");
+            try {
+                leer.close();
+            } catch (IOException ex) {
+                System.out.println("Fallo al cerrar el archivo");
+            }
+        }
+
+        return arrayYates;
     }
 
     @Override
-    public void salvarDatos() {
-    }
+    public void salvarDatos(ArrayList a) {
 
+        try {
+            escribir = new ObjectOutputStream(new FileOutputStream("D:\\a.txt"));
+        } catch (IOException ex) {
+            Logger.getLogger(ImplementacionDAOObjectStream.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            escribir.writeObject(a);
+        } catch (IOException ex) {
+            Logger.getLogger(ImplementacionDAOObjectStream.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ae) {
+        }
+        try {
+            escribir.close();
+        } catch (IOException ex) {
+            Logger.getLogger(ImplementacionDAOObjectStream.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }
