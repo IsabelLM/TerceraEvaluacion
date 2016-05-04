@@ -5,11 +5,15 @@
  */
 package iescomercio.tema10.archivos.interface1;
 
-import java.awt.Image;
+import java.awt.*;
 import java.awt.event.*;
+import java.beans.PropertyVetoException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.event.InternalFrameEvent;
-import javax.swing.event.InternalFrameListener;
+import javax.swing.event.*;
 
 /**
  *
@@ -30,7 +34,7 @@ public class Gui extends JInternalFrame implements ActionListener, InternalFrame
 
     public Gui() {
         //Me creo un objeto de cursorCliente
-        implementacion = new CursorCliente();
+        implementacion = new ImplementacionDAOObjectStream();
         //inicializo los 2 arrays
         jbottons = new JButton[7];
         imgs = new Image[7];
@@ -52,9 +56,9 @@ public class Gui extends JInternalFrame implements ActionListener, InternalFrame
         } catch (Exception e) {
         }
         //Los 3  Jlabel
-        jlDni = new JLabel("DNI :");
-        jlNombre = new JLabel("Nombre :");
-        jlApellido = new JLabel("Apellido :");
+        jlDni = new JLabel("Matricula:");
+        jlNombre = new JLabel("Camarotes:");
+        jlApellido = new JLabel("Año de fabricación:");
         //Los 3 JtextArea
         jtDni = new JTextArea();
         jtNombre = new JTextArea();
@@ -68,15 +72,17 @@ public class Gui extends JInternalFrame implements ActionListener, InternalFrame
         jpGrid.add(jlApellido);
         jpGrid.add(jtApeliddo);
         //Suscribimos al panel This al Windowlistener
-        this.addWindowListener(this);
+        addInternalFrameListener(this);
         //Añadimos los jpanel al Jframe
         getContentPane().setLayout(new BorderLayout());
         getContentPane().add(jpFlow, BorderLayout.NORTH);
         getContentPane().add(jpGrid, BorderLayout.CENTER);
 
         pack();
-        setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setClosable(true);
+        setMaximizable(true);
+        setIconifiable(true);
         setVisible(true);
     }
 
@@ -88,11 +94,11 @@ public class Gui extends JInternalFrame implements ActionListener, InternalFrame
     }
 
     public void rellenarInical() {
-        Cliente clienteAux = cursorCliente.posicionInicial();
-        if (clienteAux != null) {
-            jtDni.setText(clienteAux.getDni() + "");
-            jtNombre.setText(clienteAux.getNombre());
-            jtApeliddo.setText(clienteAux.getApellidos());
+        Yates yatesAux = implementacion.posicionInicial();
+        if (yatesAux != null) {
+            jtDni.setText(yatesAux.getMatricula() + "");
+            jtNombre.setText(yatesAux.getCamarotes() + "");
+            jtApeliddo.setText(yatesAux.getAñoFabricacion() + "");
         } else {
             jtDni.setText("objeto a null");
             jtNombre.setText("objeto a null");
@@ -100,11 +106,11 @@ public class Gui extends JInternalFrame implements ActionListener, InternalFrame
         }
     }
 
-    public void rellenarTextAreas(Cliente c) {
+    public void rellenarTextAreas(Yates c) {
         if (c != null) {
-            jtDni.setText(c.getDni() + "");
-            jtNombre.setText(c.getNombre());
-            jtApeliddo.setText(c.getApellidos());
+            jtDni.setText(c.getMatricula() + "");
+            jtNombre.setText(c.getCamarotes() + "");
+            jtApeliddo.setText(c.getAñoFabricacion() + "");
         } else {
             jtDni.setText("No hay objetos en la coleccion");
             jtNombre.setText("No hay objetos en la coleccion");
@@ -113,10 +119,12 @@ public class Gui extends JInternalFrame implements ActionListener, InternalFrame
     }
 
     //Agrupar texareas en un objeto de tipo cliente
-    public Cliente AgruparTextAreas() {
+    public Yates AgruparTextAreas() {
+        Yates yate;
         if ((jtDni.getText() != "") && (jtNombre.getText() != "") && (jtApeliddo.getText() != "")) {
             int dniNumero = Integer.parseInt(jtDni.getText());
-            return cliente = new Cliente(dniNumero, jtNombre.getText(), jtApeliddo.getText());
+            int fecha = Integer.parseInt(jtApeliddo.getText());
+            return yate = new Yates(dniNumero, jtNombre.getText(), 0, fecha);
         } else {
             mensajePantalla("No puedo guardar un cliente sin TODOS datos");
             return null;
@@ -149,7 +157,7 @@ public class Gui extends JInternalFrame implements ActionListener, InternalFrame
             vaciarTextAreas(jbottons[3]);
         } else if (ae.getSource() == jbottons[4]) {
             setJbBotonAnteriorPulsado(jbottons[4]);
-            Cliente auxCliente = cursorCliente.posicionAnterior(AgruparTextAreas());
+            Yates auxCliente = implementacion.dameAnterior(AgruparTextAreas());
             if (auxCliente != null) {
                 rellenarTextAreas(auxCliente);
             } else {
@@ -159,7 +167,7 @@ public class Gui extends JInternalFrame implements ActionListener, InternalFrame
         } else if (ae.getSource() == jbottons[5]) {
             System.out.println("Has pulsado flecha");
             setJbBotonAnteriorPulsado(jbottons[5]);
-            Cliente auxCliente = cursorCliente.posicionPosterior(AgruparTextAreas());
+            Yates auxCliente = implementacion.dameSiguiente(AgruparTextAreas());
             if (auxCliente != null) {
                 rellenarTextAreas(auxCliente);
             } else {
@@ -173,16 +181,16 @@ public class Gui extends JInternalFrame implements ActionListener, InternalFrame
 
     public void interfazOK() {
         if (jbBotonAnteriorPulsado == jbottons[0]) {
-            cursorCliente.alta(AgruparTextAreas());
+            implementacion.alta(AgruparTextAreas());
         } else if (jbBotonAnteriorPulsado == jbottons[1]) {
-            if (cursorCliente.baja(AgruparTextAreas())) {
+            if (implementacion.baja(AgruparTextAreas())) {
                 mensajePantalla("Borrado con exito");
             }
             vaciarTextAreas(jbottons[1]);
             rellenarInical();
         } else if (jbBotonAnteriorPulsado == jbottons[2]) {
             if (dniTemporal >= 0) {
-                if (cursorCliente.modificacion(dniTemporal, AgruparTextAreas())) {
+                if (implementacion.modificar(AgruparTextAreas(), AgruparTextAreas())) {
                     rellenarInical();
                 }
                 dniTemporal = -1;
@@ -190,7 +198,7 @@ public class Gui extends JInternalFrame implements ActionListener, InternalFrame
                 mensajePantalla("No se puede realizar por que el dni esta mal");
             }
         } else if (jbBotonAnteriorPulsado == jbottons[3]) {
-            rellenarTextAreas(cursorCliente.consulta(AgruparTextAreas()));
+            rellenarTextAreas(implementacion.consulta(AgruparTextAreas()));
         }
     }
 
@@ -200,36 +208,43 @@ public class Gui extends JInternalFrame implements ActionListener, InternalFrame
 
     @Override
     public void internalFrameOpened(InternalFrameEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
     }
 
     @Override
     public void internalFrameClosing(InternalFrameEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            setClosed(true);
+        } catch (PropertyVetoException ex) {
+            Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    //this.setVisible(false);
+       implementacion.salvarDatos();
+
+
     }
 
     @Override
     public void internalFrameClosed(InternalFrameEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
     }
 
     @Override
     public void internalFrameIconified(InternalFrameEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
     }
 
     @Override
     public void internalFrameDeiconified(InternalFrameEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
     }
 
     @Override
     public void internalFrameActivated(InternalFrameEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void internalFrameDeactivated(InternalFrameEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
     }
 }

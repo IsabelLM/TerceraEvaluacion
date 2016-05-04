@@ -17,7 +17,7 @@ public interface InterfazDAO {
     
     public boolean baja(Yates y);
     
-    public void modificar(Yates nuevo, Yates viejo);
+    public boolean modificar(Yates nuevo, Yates viejo);
     
     public Yates consulta(Yates y);
     
@@ -25,8 +25,10 @@ public interface InterfazDAO {
     
     public Yates dameAnterior(Yates y);
     
+    public Yates posicionInicial();
+    
     public ArrayList cargarDatos();
     
-    public void salvarDatos(ArrayList a);
+    public void salvarDatos();
 }
 

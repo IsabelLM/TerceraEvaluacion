@@ -16,9 +16,10 @@ public class Yates extends Barco {
     private int camarotes;
 
     public Yates(int camarotes, String matricula, float eslora, int añoFabricacion) {
-        super( matricula, eslora, añoFabricacion);
+        super(matricula, eslora, añoFabricacion);
         this.camarotes = camarotes;
     }
+   
 
     public int getCamarotes() {
         return camarotes;

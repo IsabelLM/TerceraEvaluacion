@@ -47,8 +47,16 @@ public class ImplementacionDAOObjectStream implements InterfazDAO {
     }
 
     @Override
-    public void modificar(Yates nuevo, Yates viejo) {
-        arrayYates.add(arrayYates.indexOf(viejo), nuevo);
+    public boolean modificar(Yates nuevo, Yates viejo) {
+
+        if (arrayYates.contains(viejo)) {
+            //DUDA ,aqui dejaria una posicion a null ¿para borrarlao correrla? -->arrayList.remove(null);
+            //si pongo return al array list no funciona
+            arrayYates.add(arrayYates.indexOf(viejo), nuevo);
+            return true;
+        } else {
+            return false;
+        }
 
     }
 
@@ -97,7 +105,7 @@ public class ImplementacionDAOObjectStream implements InterfazDAO {
     public ArrayList cargarDatos() {
 
         try {
-            leer = new ObjectInputStream(new FileInputStream("D:\\a.txt"));
+            leer = new ObjectInputStream(new FileInputStream("E:\\a.txt"));
         } catch (FileNotFoundException ex) {
             System.out.println("Fallo al abrir el archivo");
         } catch (IOException ex) {
@@ -120,23 +128,32 @@ public class ImplementacionDAOObjectStream implements InterfazDAO {
     }
 
     @Override
-    public void salvarDatos(ArrayList a) {
+    public void salvarDatos() {
 
         try {
-            escribir = new ObjectOutputStream(new FileOutputStream("D:\\a.txt"));
+            escribir = new ObjectOutputStream(new FileOutputStream("E:\\a.txt"));
         } catch (IOException ex) {
             Logger.getLogger(ImplementacionDAOObjectStream.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {
-            escribir.writeObject(a);
+            escribir.writeObject(arrayYates);
         } catch (IOException ex) {
             Logger.getLogger(ImplementacionDAOObjectStream.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (Exception ae) {
+        } finally {
+            try {
+                escribir.close();
+            } catch (IOException ex) {
+                Logger.getLogger(ImplementacionDAOObjectStream.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-        try {
-            escribir.close();
-        } catch (IOException ex) {
-            Logger.getLogger(ImplementacionDAOObjectStream.class.getName()).log(Level.SEVERE, null, ex);
+    }
+
+    @Override
+    public Yates posicionInicial() {
+        if (arrayYates.size() > 0) {
+            return arrayYates.get(0);
+        } else {
+            return null;
         }
     }
 }
