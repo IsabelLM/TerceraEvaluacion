@@ -7,10 +7,6 @@ package iescomercio.tema10.archivos.interface1;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.beans.PropertyVetoException;
-import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.event.*;
@@ -21,8 +17,8 @@ import javax.swing.event.*;
  */
 public class Gui extends JInternalFrame implements ActionListener, InternalFrameListener {
 
-    private JLabel jlDni, jlNombre, jlApellido;
-    private JTextArea jtDni, jtNombre, jtApeliddo;
+    private JLabel jlMatricula, jlCamarotes, jlFecha;
+    private JTextArea jtMatricula, jtCamarotes, jtFecha;
     private JPanel jpFlow, jpGrid;
     private Image img1, img2, img3, img4, img5, img6, img7;
     private JButton[] jbottons;
@@ -56,21 +52,21 @@ public class Gui extends JInternalFrame implements ActionListener, InternalFrame
         } catch (Exception e) {
         }
         //Los 3  Jlabel
-        jlDni = new JLabel("Matricula:");
-        jlNombre = new JLabel("Camarotes:");
-        jlApellido = new JLabel("Año de fabricación:");
+        jlMatricula = new JLabel("Matricula:");
+        jlCamarotes = new JLabel("Camarotes:");
+        jlFecha = new JLabel("Año de fabricación:");
         //Los 3 JtextArea
-        jtDni = new JTextArea();
-        jtNombre = new JTextArea();
-        jtApeliddo = new JTextArea();
+        jtMatricula = new JTextArea();
+        jtCamarotes = new JTextArea();
+        jtFecha = new JTextArea();
         //Añadimos los componentes al panel que tiene el layout grid
         jpGrid = new JPanel(new GridLayout(3, 2, 10, 10));
-        jpGrid.add(jlDni);
-        jpGrid.add(jtDni);
-        jpGrid.add(jlNombre);
-        jpGrid.add(jtNombre);
-        jpGrid.add(jlApellido);
-        jpGrid.add(jtApeliddo);
+        jpGrid.add(jlMatricula);
+        jpGrid.add(jtMatricula);
+        jpGrid.add(jlCamarotes);
+        jpGrid.add(jtCamarotes);
+        jpGrid.add(jlFecha);
+        jpGrid.add(jtFecha);
         //Suscribimos al panel This al Windowlistener
         addInternalFrameListener(this);
         //Añadimos los jpanel al Jframe
@@ -87,46 +83,46 @@ public class Gui extends JInternalFrame implements ActionListener, InternalFrame
     }
 
     public void vaciarTextAreas(JButton a) {
-        jtDni.setText("");
-        jtNombre.setText("");
-        jtApeliddo.setText("");
+        jtMatricula.setText("");
+        jtCamarotes.setText("");
+        jtFecha.setText("");
         jbBotonAnteriorPulsado = a;
     }
 
     public void rellenarInical() {
         Yates yatesAux = implementacion.posicionInicial();
         if (yatesAux != null) {
-            jtDni.setText(yatesAux.getMatricula() + "");
-            jtNombre.setText(yatesAux.getCamarotes() + "");
-            jtApeliddo.setText(yatesAux.getAñoFabricacion() + "");
+            jtMatricula.setText(yatesAux.getMatricula() + "");
+            jtCamarotes.setText(yatesAux.getCamarotes() + "");
+            jtFecha.setText(yatesAux.getAñoFabricacion() + "");
         } else {
-            jtDni.setText("objeto a null");
-            jtNombre.setText("objeto a null");
-            jtApeliddo.setText("objeto a null");
+            jtMatricula.setText("objeto a null");
+            jtCamarotes.setText("objeto a null");
+            jtFecha.setText("objeto a null");
         }
     }
 
     public void rellenarTextAreas(Yates c) {
         if (c != null) {
-            jtDni.setText(c.getMatricula() + "");
-            jtNombre.setText(c.getCamarotes() + "");
-            jtApeliddo.setText(c.getAñoFabricacion() + "");
+            jtMatricula.setText(c.getMatricula() + "");
+            jtCamarotes.setText(c.getCamarotes() + "");
+            jtFecha.setText(c.getAñoFabricacion() + "");
         } else {
-            jtDni.setText("No hay objetos en la coleccion");
-            jtNombre.setText("No hay objetos en la coleccion");
-            jtApeliddo.setText("No hay objetos en la coleccion");
+            jtMatricula.setText("No hay objetos en la coleccion");
+            jtCamarotes.setText("No hay objetos en la coleccion");
+            jtFecha.setText("No hay objetos en la coleccion");
         }
     }
 
     //Agrupar texareas en un objeto de tipo cliente
     public Yates AgruparTextAreas() {
         Yates yate;
-        if ((jtDni.getText() != "") && (jtNombre.getText() != "") && (jtApeliddo.getText() != "")) {
-            int dniNumero = Integer.parseInt(jtDni.getText());
-            int fecha = Integer.parseInt(jtApeliddo.getText());
-            return yate = new Yates(dniNumero, jtNombre.getText(), 0, fecha);
+        if ((jtMatricula.getText() != "") && (jtCamarotes.getText() != "") && (jtFecha.getText() != "")) {
+            int dniNumero = Integer.parseInt(jtMatricula.getText());
+            int fecha = Integer.parseInt(jtFecha.getText());
+            return yate = new Yates(dniNumero, jtCamarotes.getText(), 0, fecha);
         } else {
-            mensajePantalla("No puedo guardar un cliente sin TODOS datos");
+            mensajePantalla("No puedo guardar un yate sin TODOS datos");
             return null;
         }
     }
@@ -151,7 +147,7 @@ public class Gui extends JInternalFrame implements ActionListener, InternalFrame
         } else if (ae.getSource() == jbottons[2]) {
             //Boton Modificacion,como voy a necesitar el dni anterior me guardo el objeto antes de vaciar el texarea
             setJbBotonAnteriorPulsado(jbottons[2]);
-            dniTemporal = Integer.parseInt(jtDni.getText());
+            dniTemporal = Integer.parseInt(jtMatricula.getText());
             //vaciarTextAreas(jbottons[2]);
         } else if (ae.getSource() == jbottons[3]) {
             vaciarTextAreas(jbottons[3]);
@@ -213,11 +209,13 @@ public class Gui extends JInternalFrame implements ActionListener, InternalFrame
 
     @Override
     public void internalFrameClosing(InternalFrameEvent e) {
-        try {
-            setClosed(true);
-        } catch (PropertyVetoException ex) {
-            Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
-        }
+         dispose();
+//        try {
+//           
+//            setClosed(true);
+//        } catch (PropertyVetoException ex) {
+//            Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
+//        }
     //this.setVisible(false);
        implementacion.salvarDatos();
 
