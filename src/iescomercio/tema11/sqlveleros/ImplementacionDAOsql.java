@@ -14,10 +14,10 @@ import java.util.logging.Logger;
  *
  * @author VESPERTINO
  */
-public class ImplementacionDAOsql implements InterfazDAO{
+public class ImplementacionDAOsql implements InterfazDAO {
 
     private String consulta;
-    private Velero velero,auxVelero;
+    private Velero velero, auxVelero;
     private Connection connection;
     private Statement statement;
     private ResultSet result;
@@ -28,23 +28,14 @@ public class ImplementacionDAOsql implements InterfazDAO{
         velero = null;
         result = null;
 
+        connection = ConexionBD.getConexion();
         try {
-            //cargar driver
-            Class.forName("com.mysql.jdbc.Driver");
-            //hacer conexion
-            //Llamar a un metodo de ConexionDB que utiliza el patron singleton
-            connection = ConexionBD.getConexion();
-            try {
-                //crear instruccion JDBC
-                statement = connection.createStatement();
-            } catch (SQLException ex) {
-                Logger.getLogger(ImplementacionDAOsql.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            comprobacion=true;
-        } catch (ClassNotFoundException ex) {
-            comprobacion=false;
+            //crear instruccion JDBC
+            statement = connection.createStatement();
+        } catch (SQLException ex) {
             Logger.getLogger(ImplementacionDAOsql.class.getName()).log(Level.SEVERE, null, ex);
         }
+        comprobacion = true;
 
     }
 
@@ -54,10 +45,8 @@ public class ImplementacionDAOsql implements InterfazDAO{
         consulta = "INSERT INTO veleros VALUES (" + velero.getMatricula() + "," + velero.getMetrosEslora() + "," + velero.getNumeroMastiles() + ");";
         try {
             //crear instruccion
-            result = statement.executeQuery(consulta);
-            while (result.next()) {
-                System.out.println(result.getString(1) + " " + result.getString(2));
-            }
+            statement.executeUpdate(consulta);
+
             comprobacion = true;
         } catch (SQLException ex) {
             comprobacion = false;
@@ -68,11 +57,11 @@ public class ImplementacionDAOsql implements InterfazDAO{
 
     @Override
     public boolean baja(Object v) {
-        velero = (Velero) v;        
-        consulta = "DELETE FROM `veleros` WHERE `matricula`="+velero.getMatricula();       
+        velero = (Velero) v;
+        consulta = "DELETE FROM `veleros` WHERE `matricula`=" + velero.getMatricula();
         try {
             //crear instruccion
-            result = statement.executeQuery(consulta);
+            statement.executeUpdate(consulta);
             while (result.next()) {
                 System.out.println(result.getString(1) + " " + result.getString(2));
             }
@@ -86,29 +75,29 @@ public class ImplementacionDAOsql implements InterfazDAO{
 
     @Override
     public boolean modificar(Object vNuevo, Object vViejo) {
-        if(consulta(vViejo)!=null){
-            if( baja(vViejo)){
+        if (consulta(vViejo) != null) {
+            if (baja(vViejo)) {
                 alta(vNuevo);
-            comprobacion = true;
-            }else{
-                comprobacion = false; 
-            }                
-        }else{
-            comprobacion = false; 
-        }          
+                comprobacion = true;
+            } else {
+                comprobacion = false;
+            }
+        } else {
+            comprobacion = false;
+        }
         return comprobacion;
     }
 
     @Override
     public Object consulta(Object v) {
-        velero = (Velero) v;  
-        auxVelero=null;
-        consulta = "SELECT FROM `veleros` WHERE `matricula`="+velero.getMatricula();       
+        velero = (Velero) v;
+        auxVelero = null;
+        consulta = "SELECT FROM `veleros` WHERE `matricula`=" + velero.getMatricula();
         try {
             //crear instruccion
             result = statement.executeQuery(consulta);
             while (result.next()) {
-                auxVelero=(Velero) result;
+                auxVelero = (Velero) result;
                 //System.out.println(result.getString(1) + " " + result.getString(2));
             }
             comprobacion = true;
@@ -122,14 +111,14 @@ public class ImplementacionDAOsql implements InterfazDAO{
     @Override
     public Object dameSiguiente(Object v) {
         velero = (Velero) v;
-        auxVelero=null;
-        int auxNumero=velero.getMatricula()+1;
-        consulta = "Select * FROM veleros Where matricula="+auxNumero;
+        auxVelero = null;
+        int auxNumero = velero.getMatricula() + 1;
+        consulta = "Select * FROM veleros Where matricula=" + auxNumero;
         try {
             //crear instruccion
             result = statement.executeQuery(consulta);
             while (result.next()) {
-                auxVelero=(Velero) result;
+                auxVelero = (Velero) result;
             }
             comprobacion = true;
         } catch (SQLException ex) {
@@ -141,15 +130,15 @@ public class ImplementacionDAOsql implements InterfazDAO{
 
     @Override
     public Object dameAnterior(Object v) {
-       velero = (Velero) v;
-        auxVelero=null;
-        int auxNumero=velero.getMatricula()-1;
-        consulta = "Select * FROM veleros Where matricula="+auxNumero;
+        velero = (Velero) v;
+        auxVelero = null;
+        int auxNumero = velero.getMatricula() - 1;
+        consulta = "Select * FROM veleros Where matricula=" + auxNumero;
         try {
             //crear instruccion
             result = statement.executeQuery(consulta);
             while (result.next()) {
-                auxVelero=(Velero) result;
+                auxVelero = (Velero) result;
             }
             comprobacion = true;
         } catch (SQLException ex) {
@@ -160,21 +149,20 @@ public class ImplementacionDAOsql implements InterfazDAO{
     }
 
     @Override
-    public Object posicionInicial() {    
-        auxVelero=null;
-        consulta = "SELECT FROM `veleros` LIMIT 1";       
+    public Object posicionInicial() {
+        auxVelero = null;
+        consulta = "SELECT FROM `veleros` LIMIT 1";
         try {
             //crear instruccion
             result = statement.executeQuery(consulta);
             while (result.next()) {
-                 auxVelero=(Velero) result;
+                auxVelero = (Velero) result;
             }
         } catch (SQLException ex) {
             Logger.getLogger(ImplementacionDAOsql.class.getName()).log(Level.SEVERE, null, ex);
         }
         return auxVelero;
     }
-
 
     public ResultSet getResult() {
         return result;
