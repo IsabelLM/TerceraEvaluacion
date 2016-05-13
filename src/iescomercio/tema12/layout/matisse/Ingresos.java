@@ -87,6 +87,11 @@ public class Ingresos extends javax.swing.JInternalFrame {
         jPanel1.add(jLabelEstadoCivil);
 
         jComboBoxEstadoCivil.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Soltero", "Casado" }));
+        jComboBoxEstadoCivil.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxEstadoCivilActionPerformed(evt);
+            }
+        });
         jPanel1.add(jComboBoxEstadoCivil);
 
         getContentPane().add(jPanel1);
@@ -133,6 +138,10 @@ public class Ingresos extends javax.swing.JInternalFrame {
     private void jButtonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBuscarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButtonBuscarActionPerformed
+
+    private void jComboBoxEstadoCivilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxEstadoCivilActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBoxEstadoCivilActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
