@@ -3,22 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package iescomercio.tema11.patronmv.vista;
+package iescomercio.tema11.patronmvc;
 
-import iescomercio.tema11.patronmv.modelo.InterfazVistas;
-import java.awt.BorderLayout;
 import java.awt.FlowLayout;
-import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javax.swing.*;
 
 /**
  *
  * @author VESPERTINO
  */
-public class VistaSwing extends JFrame implements InterfazVistas, ActionListener {
+public class VistaSwing extends JFrame implements InterfazVistas {
 
     private JLabel jlOperando1, jlOperador, jlOperando2, jlResultado, jlResultado2;
     private JTextArea jtaOperando1, jtaOperando2;
@@ -71,37 +66,33 @@ public class VistaSwing extends JFrame implements InterfazVistas, ActionListener
 
     }
 
-    public static void main(String[] args) {
-        VistaSwing v = new VistaSwing();
-    }
-
     @Override
     public String getOperando1() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return jtaOperando1.getText();
     }
 
     @Override
     public String getOperando2() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return jtaOperando2.getText();
     }
 
     @Override
     public String getOperador() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return (String) jcbOperador.getSelectedItem();
     }
 
     @Override
     public void setResultado(String dato) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        jlResultado2.setText(dato);
     }
 
     @Override
-    public void setControlador(CalculadoraControlador aThis) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void setControlador(CalculadoraControlador object) {
+        jbCalcular.addActionListener(object);
+        jbCalcular.setActionCommand("BotonCalcular");
+        jbSalir.addActionListener(object);
+        jbSalir.setActionCommand("BotonSalir");
+
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 }

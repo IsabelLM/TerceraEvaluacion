@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package iescomercio.tema11.patronmv.modelo;
+package iescomercio.tema11.patronmvc;
 
 /**
  *
@@ -19,6 +19,6 @@ public interface InterfazVistas {
 
     public abstract void setResultado(String dato);
 
-    public void setControlador(CalculadoraControlador aThis);
+    public void setControlador(CalculadoraControlador objeto);
 
 }
